@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.filecab.persistence.impl.mybatis.mapper.CodeValueMapper">
+
+	<!-- resultmaps -->
+	
+	<!-- select statements -->
+	<select id="selectGigahertzValues" resultType="codeValue">
+		SELECT 
+			id as code,
+			description as value
+		FROM 
+			gigahertz_ct
+	</select>
+	
+</mapper>

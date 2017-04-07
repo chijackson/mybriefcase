@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Briefcase - DVD Profile List</title>
+	<h:outputScript name="js/common.js"/>
+</h:head>
+<h:body onkeypress="return disableEnterKey(event)">
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmDvdProfiles">
+		<div style="margin:80px 25px 0 25px; width:1150px">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="New" icon="ui-icon-document" 
+						action="#{dvdProfileController.actionNavNewProfile}" ajax="false"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Home" icon="ui-icon-home"
+						action="#{dvdProfileController.actionNavHome}" ajax="false"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="datatable-profiles" var="profile" value="#{dvdProfileForm.profiles}" 
+				editable="true" emptyMessage="No Profiles Found."
+				paginator="true" rows="15" paginatorAlwaysVisible="false"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="15,25,50">
+				<p:ajax event="rowEdit" listener="#{dvdProfileController.ajaxOnEditProfile}"/>
+				<f:facet name="header">
+					<h:outputText value="DVD Profiles" style="font-size:14px"/>
+				</f:facet>
+				<p:column headerText="Title" width="45%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.title}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.title}" maxlength="50" style="width:95%"
+								required="true"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Serial #" width="45%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.serial}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.serial}" maxlength="45" style="width:95%"
+								required="true"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:rowEditor />
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:commandButton icon="ui-icon-trash" onclick="dvdDelDlg.show()" title="Delete Profile">
+						<f:setPropertyActionListener target="#{dvdProfileForm.selectedProfileId}" 
+							value="#{profile.id}"/>
+					</p:commandButton> 
+				</p:column>
+			</p:dataTable>
+			<p:blockUI block="datatable-profiles" trigger="datatable-profiles">
+				Loading<br/>
+				<h:graphicImage library="images" name="ajax-loader.gif"/>
+			</p:blockUI>
+		</div>
+	</h:form>
+	<p:confirmDialog id="dvdDeleteConfirmDialog" message="Are you sure you want to delete the profile?"
+		header="Confirm Delete" severity="alert" widgetVar="dvdDelDlg" appendToBody="true">
+		<h:form id="frmConfirmDvdDel">
+			<div align="center">
+			<p:commandButton id="btnConfirm" value="Yes" oncomplete="dvdDelDlg.hide()"  
+				update=":frmDvdProfiles:datatable-profiles" 
+				actionListener="#{dvdProfileController.ajaxDeleteProfile}"
+				process="@this"/>
+			<p:commandButton id="btnDecline" value="No" onclick="dvdDelDlg.hide()" type="button" />
+			</div>
+		</h:form>
+	</p:confirmDialog>
+</h:body>
+</html>

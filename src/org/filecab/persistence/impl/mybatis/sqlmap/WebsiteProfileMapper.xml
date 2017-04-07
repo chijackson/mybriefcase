@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.filecab.persistence.impl.mybatis.mapper.WebsiteProfileMapper">
+
+	<resultMap id="selectAllProfilesResultMap" type="websiteProfile">
+		<result column="id" property="id" javaType="string"/>
+		<result column="name" property="name" javaType="string"/>
+		<result column="url" property="url" javaType="string"/>
+		<result column="userid" property="userId" javaType="string"/>
+		<result column="password" property="encryptedPassword" javaType="string"/>
+		<result column="notes" property="notes" javaType="string"/>
+	</resultMap>
+	
+	<select id="selectAllProfiles" parameterType="string" resultMap="selectAllProfilesResultMap">
+		SELECT 
+			id,
+			name,
+			url,
+			userid,
+			password,
+			notes
+		FROM website_profile 
+		WHERE profile_user = #{value}
+	</select>
+	
+	<insert id="insertProfile" parameterType="websiteProfile">
+		INSERT INTO website_profile (id, name, url, userid, password, notes, profile_user) 
+		VALUES (#{id}, #{name}, #{url}, #{userId}, #{encryptedPassword}, #{notes}, #{profileId})
+	</insert>
+	
+	<update id="updateProfile" parameterType="websiteProfile">
+		UPDATE website_profile
+		SET id = #{id}, 
+			name = #{name}, 
+			url = #{url}, 
+			userid = #{userId}, 
+			password = #{encryptedPassword}, 
+			notes = #{notes}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteProfile" parameterType="string">
+		DELETE FROM website_profile
+		WHERE id = #{value}
+	</delete>
+	
+</mapper>

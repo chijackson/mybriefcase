@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>My Briefcase - Wireless Profile List</title>
+	<h:outputScript name="js/common.js"/>
+</h:head>
+<h:body onkeypress="return disableEnterKey(event)">
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmWirelessProfiles">
+		<div style="margin:80px 25px 0 25px; width:1150px">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="New" icon="ui-icon-document" 
+						action="#{wirelessProfileController.actionNavNewProfile}" ajax="false"/>
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Home" icon="ui-icon-home"
+						action="#{wirelessProfileController.actionNavHome}" ajax="false"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="datatable-wirelessips" var="profile" value="#{wirelessProfileForm.wirelessProfiles}" 
+				editable="true" emptyMessage="No Profiles Found."
+				paginator="true" rows="15" paginatorAlwaysVisible="false"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="15,25,50">
+				<p:ajax event="rowEdit" listener="#{wirelessProfileController.ajaxOnEditProfile}"/>
+				<f:facet name="header">
+					<h:outputText value="Wireless Profiles" style="font-size:14px"/>
+				</f:facet>
+				<p:column headerText="IP Address" width="30%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.ipAddress}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.ipAddress}" maxlength="15" style="width:95%"
+								required="true"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Device" width="40%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.deviceName}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.deviceName}" maxlength="25" style="width:95%"
+								required="true" requiredMessage="Device must contain a value."/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Ghz" width="15%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:selectOneMenu value="#{profile.gigahertz}" disabled="true"
+								required="true" requiredMessage="You must select a value for Ghz.">
+								<f:selectItems value="#{wirelessProfileForm.gigahertzSelectItems}"/>
+							</p:selectOneMenu>
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{profile.gigahertz}" 
+								required="true" requiredMessage="You must select a value for Ghz.">
+								<f:selectItems value="#{wirelessProfileForm.gigahertzSelectItems}"/>
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px" headerText="Active">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:selectBooleanCheckbox value="#{profile.active}" disabled="true"/>
+						</f:facet>
+						<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{profile.active}"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:rowEditor />
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:commandButton icon="ui-icon-trash" onclick="wirelessDelDlg.show()" title="Delete Profile">
+						<f:setPropertyActionListener target="#{wirelessProfileForm.selectedWirelessProfileId}" 
+							value="#{profile.id}"/>
+					</p:commandButton> 
+				</p:column>
+			</p:dataTable>
+			<p:blockUI block="datatable-wirelessips" trigger="datatable-wirelessips">
+				Loading<br/>
+				<h:graphicImage library="images" name="ajax-loader.gif"/>
+			</p:blockUI>
+		</div>
+	</h:form>
+	
+	<p:confirmDialog id="wirelessDeleteConfirmDialog" message="Are you sure you want to delete the profile?"
+		header="Confirm Delete" severity="alert" widgetVar="wirelessDelDlg" appendToBody="true">
+		<h:form id="frmConfirmWirelessDel">
+			<div align="center">
+			<p:commandButton id="btnConfirm" value="Yes" oncomplete="wirelessDelDlg.hide()"  
+				update=":frmWirelessProfiles:datatable-wirelessips" 
+				actionListener="#{wirelessProfileController.ajaxDeleteProfile}"
+				process="@this"/>
+			<p:commandButton id="btnDecline" value="No" onclick="wirelessDelDlg.hide()" type="button" />
+			</div>
+		</h:form>
+	</p:confirmDialog>
+</h:body>
+</html>

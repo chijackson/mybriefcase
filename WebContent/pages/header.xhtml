@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:composition>
+	<p:growl id="messages" autoUpdate="true" globalOnly="true" showDetail="true"/>
+	<h:form>
+		<div id="logo" align="center" style="margin:10px 500px 0; position:absolute">
+			<h:graphicImage library="images" name="main-logo.png"/>
+		</div>
+		<div class="ui-logout">
+			<h:outputText value="Welcome #{login.user.firstName} "/>
+			<p:commandLink value="[logout]" onclick="logoutDialog.show()" type="button"/>
+			<p:confirmDialog message="Are you sure you want to logout?" header="Confirm Logout"
+				severity="alert" widgetVar="logoutDialog">
+				<div align="center">
+					<p:commandButton value="Yes" action="#{loginController.actionLogout}"/>
+					<p:commandButton value="No" onclick="logoutDialog.hide()" type="button"/>
+				</div>
+			</p:confirmDialog>
+		</div>
+		<br/>
+		<p:idleMonitor onidle="varIdleDialog.show()" timeout="1800000"/>
+		<p:dialog id="idleDialog" header="Session Expired" widgetVar="varIdleDialog" 
+			modal="true" closable="false" resizable="false">
+			<div align="center">
+				<h:outputText value="For your security, you will now be logged out."/>
+				<br/>
+				<br/>
+				<p:commandButton action="#{loginController.actionLogout}" value="Ok"/>
+			</div>
+		</p:dialog>
+	</h:form>
+	</ui:composition>
+</h:body>
+</html>

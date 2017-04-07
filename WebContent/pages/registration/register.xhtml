@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>My Briefcase Registration</title>
+	<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<h:form id="frmRegistration">
+		<p:growl globalOnly="true" showDetail="true"/>
+		<p:wizard widgetVar="wizRegister" backLabel="Previous" nextLabel="Continue" showStepStatus="false" showNavBar="false"
+			flowListener="#{registrationController.onFlowProcess}" style="margin:80px 350px 0;width:400px">
+			<p:tab id="tabUser" title="User">
+				<p:panel header="New User Data">
+					<p:panelGrid columns="2" id="panel-grid">
+						<p:outputLabel value="User Id:" for="userId"/>
+						<p:inputText id="userId" required="true" requiredMessage="User Id must contain a value."
+							value="#{registrationForm.user.userId}" validatorMessage="Invalid email format."
+							maxlength="50" size="20">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+							<p:watermark value="Enter email address" for="userId"/>
+						</p:inputText>
+						<p:outputLabel value="Password:" for="password"/>
+						<p:inputText id="password" required="true" requiredMessage="Password must contain a value."
+							value="#{registrationForm.user.password}" maxlength="20" size="20"/>
+						<p:outputLabel value="First Name:" for="firstName"/>
+						<p:inputText id="firstName" required="true" requiredMessage="First Name must contain a value"
+							value="#{registrationForm.user.firstName}" maxlength="45" size="20"/>
+						<p:outputLabel value="Last Name:" for="lastName"/>
+						<p:inputText id="lastName" required="true" requiredMessage="Last Name must contain a value."
+							value="#{registrationForm.user.lastName}" maxlength="45" size="20"/>
+					</p:panelGrid>
+					<p:messages autoUpdate="true" closable="true"/>
+				</p:panel>
+			</p:tab>
+			<p:tab id="tabConfirm" title="Confirm">
+				<p:panel header="Confirmation Details">
+					<p:panelGrid columns="2">
+						<h:outputText value="User Id:"/>
+						<h:outputText value="#{registrationForm.user.userId}"/>
+						<h:outputText value="Password:"/>
+						<h:outputText value="#{registrationForm.user.password}"/>
+						<h:outputText value="First Name:"/>
+						<h:outputText value="#{registrationForm.user.firstName}"/>
+						<h:outputText value="Last Name:"/>
+						<h:outputText value="#{registrationForm.user.lastName}"/>
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+		</p:wizard>
+		<p:toolbar id="toolBar" style="margin:0 350px 0;width:395px">
+			<p:toolbarGroup align="left">
+				<p:commandButton id="back" value="Back" onclick="wizRegister.back();" 
+					rendered="#{registrationForm.renderBackButton}" update="toolBar"/>
+			</p:toolbarGroup>
+			<p:toolbarGroup align="right">
+				<p:commandButton id="next" value="Next" onclick="wizRegister.next();" 
+					rendered="#{registrationForm.renderNextButton}" update="toolBar"/>
+			</p:toolbarGroup>
+			<p:toolbarGroup align="right">
+				<p:commandButton value="Submit" ajax="false" update="toolBar"
+					rendered="#{registrationForm.renderSubmitButton}" 
+					action="#{registrationController.actionRegisterUser}"/>
+			</p:toolbarGroup>
+		</p:toolbar>
+		<br/>
+		<div style="margin:0 0 0 600px">
+			<p:commandLink value="Click to cancel registration." 
+				immediate="true" ajax="false"
+				action="#{registrationController.actionNavLogin}"/>
+		</div>
+	</h:form>
+</h:body>
+</html>

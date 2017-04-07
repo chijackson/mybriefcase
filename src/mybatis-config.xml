@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="org.filecab.bean.User" alias="user"/>
+		<typeAlias type="org.filecab.bean.WirelessProfile" alias="wirelessProfile"/>
+		<typeAlias type="org.filecab.bean.WebsiteProfile" alias="websiteProfile"/>
+		<typeAlias type="org.filecab.bean.DvdProfile" alias="dvdProfile"/>
+		<typeAlias type="org.filecab.bean.CodeValue" alias="codeValue"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="org/filecab/persistence/impl/mybatis/sqlmap/CodeValueMapper.xml"/>
+		<mapper resource="org/filecab/persistence/impl/mybatis/sqlmap/UserMapper.xml"/>
+		<mapper resource="org/filecab/persistence/impl/mybatis/sqlmap/WirelessProfileMapper.xml"/>
+		<mapper resource="org/filecab/persistence/impl/mybatis/sqlmap/WebsiteProfileMapper.xml"/>
+		<mapper resource="org/filecab/persistence/impl/mybatis/sqlmap/DvdProfileMapper.xml"/>
+	</mappers>
+</configuration>

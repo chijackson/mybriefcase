@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>My Briefcase</title>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmHome">
+		<p:toolbar style="margin:80px 25px 0; width:1150px">
+			<p:toolbarGroup>
+			<p:menuButton value="Profiles">
+				<p:menuitem action="#{websiteProfileController.actionLoadProfiles}"
+					value="Website" ajax="false"/>
+				<p:menuitem action="#{wirelessProfileController.actionLoadProfiles}"
+					value="Wireless Devices" ajax="false"/>
+				<p:menuitem action="#{dvdProfileController.actionLoadProfiles}"
+					value="DVD" ajax="false"/>
+			</p:menuButton>
+			</p:toolbarGroup>
+		</p:toolbar>
+	</h:form>
+</h:body>
+</html>

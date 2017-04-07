@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.filecab.persistence.impl.mybatis.mapper.DvdProfileMapper">
+
+	<resultMap id="selectAllProfilesResultMap" type="dvdProfile">
+		<result column="id" property="id" javaType="string"/>
+		<result column="title" property="title" javaType="string"/>
+		<result column="serial" property="serial" javaType="string"/>
+	</resultMap>
+	
+	<select id="selectAllProfiles" parameterType="string" resultMap="selectAllProfilesResultMap">
+		SELECT 
+			id,
+			title,
+			serial
+		FROM dvd_profile 
+		WHERE profile_user = #{value}
+	</select>
+
+	<insert id="insertProfile" parameterType="dvdProfile">
+		INSERT INTO dvd_profile (id, title, serial, profile_user)
+		VALUES (#{id}, #{title}, #{serial}, #{profileId})
+	</insert>
+	
+	<update id="updateProfile" parameterType="dvdProfile">
+		UPDATE dvd_profile
+		SET title = #{title},
+			serial = #{serial}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteProfile" parameterType="string">
+		DELETE FROM dvd_profile
+		WHERE id = #{value}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Briefcase - New Website Profile</title>
+	<h:outputScript name="js/common.js"/>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmNewWebsiteProfile">
+		<p:focus context="panel-wsprofile-new"/>
+		<div style="margin:80px 400px 0; width:450px">
+		<p:panel id="panel-wsprofile-new" header="New Website Profile">
+			<p:panelGrid columns="2">
+				<p:outputLabel for="ws-name" value="Name"/>
+				<p:inputText id="ws-name" value="#{websiteProfile.name}" maxlength="25" size="20"
+					required="true" requiredMessage="Name must contain a value."/>
+				<p:outputLabel for="ws-url" value="Url"/>
+				<p:inputTextarea id="ws-url" value="#{websiteProfile.url}" rows="3" cols="40" maxlength="100"
+					required="true" requiredMessage="Url must contain a value"/>
+				<p:outputLabel for="ws-userid" value="User ID"/>
+				<p:inputText id="ws-userid" value="#{websiteProfile.userId}" maxlength="20" size="20"
+					required="true" requiredMessage="User ID must contain a value."/>
+				<p:outputLabel for="ws-password" value="Password"/>
+				<p:inputText id="ws-password" value="#{websiteProfile.password}" maxlength="20" size="20"
+					required="true" requiredMessage="Password must contain a value."/>
+				<p:outputLabel for="ws-notes" value="Notes"/>
+				<p:inputTextarea id="ws-notes" value="#{websiteProfile.notes}" rows="4" cols="40" maxlength="255"/>
+			</p:panelGrid>
+			<br/>
+			<h:panelGroup>
+				<p:commandButton id="btnWsProfileSave" value="Save" icon="ui-icon-disk"  
+              		actionListener="#{websiteProfileController.ajaxSaveNewProfile}"
+              		update="msgs-new-profile"/>
+              	<p:commandButton value="Reset" update="panel-wsprofile-new" icon="ui-icon-cancel" 
+              		process="@this">
+              		<p:resetInput target="panel-wsprofile-new"/>
+              	</p:commandButton>
+              	<p:commandButton id="btnWsProfileFinish" value="Finish" icon="ui-icon-home" 
+              		action="#{websiteProfileController.actionNavProfileList}" 
+              		immediate="true" ajax="false"/>
+			</h:panelGroup>
+			<p:messages id="msgs-new-profile" closable="true"/>
+		</p:panel>
+		<p:blockUI block="panel-wsprofile-new" trigger="btnWsProfileSave">
+			Loading<br/>
+			<h:graphicImage library="images" name="ajax-loader.gif"/>
+		</p:blockUI>
+		</div>
+	</h:form>
+</h:body>
+</html>

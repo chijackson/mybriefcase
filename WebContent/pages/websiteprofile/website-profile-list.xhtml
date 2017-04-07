@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Briefcase - Website Profile List</title>
+	<h:outputScript name="js/common.js"/>
+</h:head>
+<h:body onkeypress="return disableEnterKey(event)">
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmWebsiteProfiles">
+		<div style="margin:80px 25px 0 25px; width:1150px">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="New" icon="ui-icon-document" 
+						action="#{websiteProfileController.actionNavNewProfile}" ajax="false"/>
+				</p:toolbarGroup>
+				<!-- <p:toolbarGroup style="margin:0 0 0 450px">
+					Website Profiles
+				</p:toolbarGroup> -->
+				<p:toolbarGroup align="right">
+					<p:commandButton value="Home" icon="ui-icon-home"
+						action="#{websiteProfileController.actionNavHome}" ajax="false"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:dataTable id="datatable-websites" var="profile" value="#{websiteProfileForm.websiteProfiles}" 
+				editable="true" emptyMessage="No Profiles Found."
+				filteredValue="#{websiteProfileForm.filteredWebsiteProfiles}" widgetVar="varProfilesDatable"
+				paginator="true" rows="15" paginatorAlwaysVisible="false"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="15,25,50">
+				<p:ajax event="rowEdit" listener="#{websiteProfileController.ajaxOnEditProfile}"/>
+				<f:facet name="header">
+					<h:outputText value="Website Profiles" style="font-size:14px"/>
+				</f:facet>
+				<p:column headerText="Name" width="15%" style="text-align:center;padding:2px 5px"
+					filterBy="#{profile.name}" filterMatchMode="contains">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.name}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.name}" maxlength="20" style="width:95%"
+								required="true" requiredMessage="Name must contain a value."/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Url" width="20%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<div style="word-wrap:break-word;width:225px;height:40px;overflow-y:scroll;overflow-x:hidden">
+								<a href="#{profile.fullUrl}" target="_blank">#{profile.url}</a>
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputTextarea value="#{profile.url}" style="width:95%" autoResize="false"
+								rows="4" required="true" requiredMessage="Url must contain a value"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="User ID" width="15%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.userId}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.userId}" maxlength="18" style="width:95%"
+								required="true" requiredMessage="User ID must contain a value."/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Password" width="15%" style="text-align:left;padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							#{profile.password}
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{profile.password}" maxlength="20" style="width:95%"
+								required="true" requiredMessage="Password must contain a value."/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Notes" width="20%" style="padding:2px 5px">
+					<p:cellEditor>
+						<f:facet name="output">
+							<div style="word-wrap:break-word;width:225px;height:40px;overflow-y:scroll;overflow-x:hidden">
+								#{profile.notes}
+							</div>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputTextarea value="#{profile.notes}" style="width:95%" autoResize="false"
+								rows="4"/>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:rowEditor />
+				</p:column>
+				<p:column width="5%" style="padding:2px 5px">
+					<p:commandButton icon="ui-icon-trash" onclick="websiteDelDlg.show()" title="Delete Profile">
+						<f:setPropertyActionListener target="#{websiteProfileForm.selectedWebsiteProfileId}" 
+							value="#{profile.id}"/>
+					</p:commandButton> 
+				</p:column>
+			</p:dataTable>
+		</div>
+		
+		<p:blockUI block="datatable-websites" trigger="datatable-websites">
+			Loading<br/>
+			<h:graphicImage library="images" name="ajax-loader.gif"/>
+		</p:blockUI>
+	</h:form>
+	
+	<p:confirmDialog id="websiteDeleteConfirmDialog" message="Are you sure you want to delete the profile?"
+		header="Confirm Delete" severity="alert" widgetVar="websiteDelDlg" appendToBody="true">
+		<h:form id="frmConfirmWebsiteDel">
+			<div align="center">
+			<p:commandButton id="btnConfirm" value="Yes" oncomplete="websiteDelDlg.hide()"  
+				update=":frmWebsiteProfiles:datatable-websites" 
+				actionListener="#{websiteProfileController.ajaxDeleteProfile}"
+				process="@this"/>
+			<p:commandButton id="btnDecline" value="No" onclick="websiteDelDlg.hide()" type="button" />
+			</div>
+		</h:form>
+	</p:confirmDialog>
+</h:body>
+</html>

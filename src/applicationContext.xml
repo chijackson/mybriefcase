@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:jee="http://www.springframework.org/schema/jee"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        	http://www.springframework.org/schema/aop 
+        	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   
+        	http://www.springframework.org/schema/context 
+        	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        	http://www.springframework.org/schema/jdbc 
+        	http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+        	http://www.springframework.org/schema/tx 
+        	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+        	http://www.springframework.org/schema/jee 
+        	http://www.springframework.org/schema/jee/spring-jee-3.2.xsd">
+        
+        <!-- DataSource -->
+        <jee:jndi-lookup id="dataSource" jndi-name="jdbc/mybriefcase" lookup-on-startup="true" />
+        
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        	<property name="configLocation" value="classpath:mybatis-config.xml"/>
+        	<property name="dataSource" ref="dataSource"/>
+        </bean>
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"/>
+		</bean>
+		<!--  This configuration element tells Spring to examine all beans in the application context 
+			and to look for beans that are annotated with @Transactional, 
+			either at the class level or at the method level.  -->
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+		
+        
+        <!-- Business Manager -->
+        <bean id="DropDownManager" class="org.filecab.business.manager.DropDownManager">
+        	<property name="dao" ref="codeValueDao"/>
+        </bean>
+        <bean id="UserManager" class="org.filecab.business.manager.UserManager">
+        	<property name="dao" ref="userDao"/>
+        </bean>
+        <bean id="WirelessProfileManager" class="org.filecab.business.manager.WirelessProfileManager">
+        	<property name="dao" ref="wirelessProfileDao"/>
+        </bean>
+        <bean id="WebsiteProfileManager" class="org.filecab.business.manager.WebsiteProfileManager">
+        	<property name="dao" ref="websiteProfileDao"/>
+        </bean>
+        <bean id="DvdProfileManager" class="org.filecab.business.manager.DvdProfileManager">
+        	<property name="dao" ref="dvdProfileDao"/>
+        </bean>
+        
+        <!-- Dao -->
+        <bean id="codeValueDao" class="org.filecab.persistence.impl.mybatis.CodeValueImpl">
+        	<property name="mapper" ref="codeValueMapper"/>
+        </bean>
+        <bean id="userDao" class="org.filecab.persistence.impl.mybatis.UserImpl">
+        	<property name="mapper" ref="userMapper"/>
+        </bean>
+        <bean id="wirelessProfileDao" class="org.filecab.persistence.impl.mybatis.WirelessProfileImpl">
+        	<property name="mapper" ref="wirelessProfileMapper"/>
+        </bean>
+        <bean id="websiteProfileDao" class="org.filecab.persistence.impl.mybatis.WebsiteProfileImpl">
+        	<property name="mapper" ref="websiteProfileMapper"/>
+        </bean>
+        <bean id="dvdProfileDao" class="org.filecab.persistence.impl.mybatis.DvdProfileImpl">
+        	<property name="mapper" ref="dvdProfileMapper"/>
+        </bean>
+        
+        <!-- Mapper -->
+        <bean id="codeValueMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        	<property name="mapperInterface" value="org.filecab.persistence.impl.mybatis.mapper.CodeValueMapper"/>
+        	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean>
+        <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        	<property name="mapperInterface" value="org.filecab.persistence.impl.mybatis.mapper.UserMapper"/>
+        	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean>
+        <bean id="wirelessProfileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        	<property name="mapperInterface" value="org.filecab.persistence.impl.mybatis.mapper.WirelessProfileMapper"/>
+        	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean>
+        <bean id="websiteProfileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        	<property name="mapperInterface" value="org.filecab.persistence.impl.mybatis.mapper.WebsiteProfileMapper"/>
+        	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean>
+        <bean id="dvdProfileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        	<property name="mapperInterface" value="org.filecab.persistence.impl.mybatis.mapper.DvdProfileMapper"/>
+        	<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean>
+        
+</beans>

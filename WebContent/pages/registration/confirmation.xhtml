@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>My Briefcase Registration Confirmation</title>
+	<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"/>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<h:form id="frmRegistrationConfirmation">
+		<p:panel header="Registration Complete!" style="margin:80px 350px 0;">
+			<p:panelGrid columns="2">
+				<h:outputText value="User Id:"/>
+				<h:outputText value="#{login.user.userId}"/>
+				<h:outputText value="Password:"/>
+				<h:outputText value="#{login.user.password}"/>
+			</p:panelGrid>
+			<br/>
+			<br/>
+			<p:commandLink value="Click here to continue" action="#{loginController.actionLogin}"/>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

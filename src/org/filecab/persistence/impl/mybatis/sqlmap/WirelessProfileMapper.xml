@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.filecab.persistence.impl.mybatis.mapper.WirelessProfileMapper">
+
+	<!-- resultmaps -->
+	<resultMap id="selectAllProfilesResultMap" type="wirelessProfile">
+		<result column="id" property="id" javaType="string"/>
+		<result column="ipaddress" property="ipAddress" javaType="string"/>
+		<result column="device_name" property="deviceName" javaType="string"/>
+		<result column="gigahertz_id" property="gigahertz" javaType="int"/>
+		<result column="active" property="active" javaType="boolean"/>
+	</resultMap>
+	
+	<select id="selectAllProfiles" parameterType="string" resultMap="selectAllProfilesResultMap">
+		SELECT 
+			id,
+			ipaddress,
+			device_name,
+			gigahertz_id,
+			active
+		FROM wireless_profile
+		WHERE profile_user = #{value}
+	</select>
+
+	<insert id="insertProfile" parameterType="wirelessProfile">
+		INSERT INTO wireless_profile (id, ipaddress, device_name, gigahertz_id, active, profile_user)
+		VALUES (#{id}, #{ipAddress}, #{deviceName}, #{gigahertz}, #{active}, #{profileId})
+	</insert>
+
+	<delete id="deleteProfile" parameterType="string">
+		DELETE FROM wireless_profile
+		WHERE id = #{value}
+	</delete>
+	
+	<update id="updateProfile" parameterType="wirelessProfile">
+		UPDATE wireless_profile 
+		SET ipaddress = #{ipAddress}, 
+			device_name = #{deviceName}, 
+			gigahertz_id = #{gigahertz},
+			active = #{active}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

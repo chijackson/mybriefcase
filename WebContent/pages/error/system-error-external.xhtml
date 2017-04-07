@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>System Error</title>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<h:form id="frmSystemError">
+		<div style="margin:80px 300px 0;">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:outputLabel value="System Error Occurred"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			<h:graphicImage library="images" name="sad-face.jpg" style="float:left;margin:10px 10px;"/>
+			<div style="margin:30px;">
+			<h:outputText value="Uh-Oh!" style="font-size:300%;font-style:bold;font-family: Verdana;"/>
+			<br/>
+			<h:outputText value="The system has encountered a problem!" style="font-family: Verdana;"/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<p:commandButton value="Go back to Login page" action="#{systemErrorController.actionNavLogin}"/>
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

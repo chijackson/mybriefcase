@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Briefcase - New DVD Profile</title>
+	<h:outputScript name="js/common.js"/>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="css/styles.css"/>
+	<ui:insert>
+		<ui:include src="/pages/header.xhtml"/>
+	</ui:insert>
+	<h:form id="frmNewDvdProfile">
+		<p:focus context="panel-profile-new"/>
+		<div style="margin:80px 400px 0; width:450px">
+		<p:panel id="panel-profile-new" header="New DVD Profile">
+			<p:panelGrid columns="2">
+				<p:outputLabel for="title" value="Title"/>
+				<p:inputText id="title" value="#{dvdProfile.title}" maxlength="50" size="40"
+					required="true" requiredMessage="Title must contain a value."/>
+				<p:outputLabel for="serial" value="Serial"/>
+				<p:inputText id="serial" value="#{dvdProfile.serial}" maxlength="45" size="40"
+					required="true" requiredMessage="Serial must contain a value."/>
+			</p:panelGrid>
+			<br/>
+			<h:panelGroup>
+				<p:commandButton id="btnSave" value="Save" icon="ui-icon-disk"  
+              		actionListener="#{dvdProfileController.ajaxSaveNewProfile}"
+              		update="msgs-new-profile"/>
+              	<p:commandButton value="Reset" update="panel-profile-new" icon="ui-icon-cancel" 
+              		process="@this">
+              		<p:resetInput target="panel-profile-new"/>
+              	</p:commandButton>
+              	<p:commandButton id="btnFinish" value="Finish" icon="ui-icon-home" 
+              		action="#{dvdProfileController.actionNavProfileList}" 
+              		immediate="true" ajax="false"/>
+			</h:panelGroup>
+			<p:messages id="msgs-new-profile" closable="true"/>
+		</p:panel>
+		<p:blockUI block="panel-profile-new" trigger="btnSave">
+			Loading<br/>
+			<h:graphicImage library="images" name="ajax-loader.gif"/>
+		</p:blockUI>
+		</div>
+	</h:form>
+</h:body>
+</html>
