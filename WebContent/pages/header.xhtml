@@ -18,14 +18,10 @@
 		</div>
 		<div class="ui-logout">
 			<h:outputText value="Welcome #{login.user.firstName} "/>
-			<p:commandLink value="[logout]" onclick="logoutDialog.show()" type="button"/>
-			<p:confirmDialog message="Are you sure you want to logout?" header="Confirm Logout"
-				severity="alert" widgetVar="logoutDialog">
-				<div align="center">
-					<p:commandButton value="Yes" action="#{loginController.actionLogout}"/>
-					<p:commandButton value="No" onclick="logoutDialog.hide()" type="button"/>
-				</div>
-			</p:confirmDialog>
+			<p:commandLink id="logoutCmd" actionListener="#{loginController.actionLogout}">
+				<h:outputText value="logout" />
+				<p:confirm header="Confirm" icon="ui-icon-alert" message="Logout?"/>
+			</p:commandLink>
 		</div>
 		<br/>
 		<p:idleMonitor onidle="varIdleDialog.show()" timeout="1800000"/>
@@ -38,6 +34,10 @@
 				<p:commandButton action="#{loginController.actionLogout}" value="Ok"/>
 			</div>
 		</p:dialog>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closable="false">
+	        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	    </p:confirmDialog>
 	</h:form>
 	</ui:composition>
 </h:body>

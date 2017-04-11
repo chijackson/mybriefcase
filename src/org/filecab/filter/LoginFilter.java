@@ -30,16 +30,16 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
         String loginURL = request.getContextPath() + "/login.faces";
-        String confirmationURL = request.getContextPath() + "/registration/register.faces";
+        String registerURL = request.getContextPath() + "/registration/register.faces";
 
         boolean loggedIn = (session != null) && (((Login) session.getAttribute("login")) != null)
         		&& (((Login) session.getAttribute("login")).isLoggedIn());
         boolean loginRequest = request.getRequestURI().equals(loginURL);
-        boolean confirmationRequest = request.getRequestURI().equals(confirmationURL);
+        boolean registerRequest = request.getRequestURI().equals(registerURL);
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER + "/");
         boolean ajaxRequest = "partial/ajax".equals(request.getHeader("Faces-Request"));
 
-        if (loggedIn || loginRequest || resourceRequest || confirmationRequest) {
+        if (loggedIn || loginRequest || resourceRequest || registerRequest) {
             if (!resourceRequest) { // Prevent browser from caching restricted resources. See also http://stackoverflow.com/q/4194207/157882
                 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
                 response.setHeader("Pragma", "no-cache"); // HTTP 1.0.

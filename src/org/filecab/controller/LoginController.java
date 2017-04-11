@@ -3,6 +3,8 @@
  */
 package org.filecab.controller;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -53,9 +55,13 @@ public class LoginController extends Controller{
 		return returnVal;
 	}
 	
-	public String actionLogout() {
+	public void actionLogout() throws IOException {
 		JSFUtils.logout();
-		return "/login";
+		try {
+			JSFUtils.redirect("/login.faces");
+		} catch (IOException e1) {
+			processError(e1, false);
+		}
 	}
 
 	public String actionNavRegistration() {

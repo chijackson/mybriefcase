@@ -19,20 +19,20 @@ public class RegistrationController extends Controller {
 	public static final String TAB_CONFIRM = "tabConfirm";
 	
 	public String onFlowProcess(FlowEvent event) {
-		String forwardStep = event.getNewStep();
-		RegistrationForm registrationBean = (RegistrationForm) JSFUtils.getSessionBean("registrationForm");
-		
-		if (TAB_USER.equals(forwardStep)) {
-			registrationBean.setRenderBackButton(false);
-			registrationBean.setRenderNextButton(true);
-			registrationBean.setRenderSubmitButton(false);
-		} else if(TAB_CONFIRM.equals(forwardStep)) {
-			registrationBean.setRenderBackButton(true);
-			registrationBean.setRenderNextButton(false);
-			registrationBean.setRenderSubmitButton(true);
-		}
-		
-		return forwardStep;
+		return event.getNewStep();
+//		RegistrationForm registrationBean = (RegistrationForm) JSFUtils.getSessionBean("registrationForm");
+//		
+//		if (TAB_USER.equals(forwardStep)) {
+//			registrationBean.setRenderBackButton(false);
+//			registrationBean.setRenderNextButton(true);
+//			registrationBean.setRenderSubmitButton(false);
+//		} else if(TAB_CONFIRM.equals(forwardStep)) {
+//			registrationBean.setRenderBackButton(true);
+//			registrationBean.setRenderNextButton(false);
+//			registrationBean.setRenderSubmitButton(true);
+//		}
+//		
+//		return forwardStep;
 	}
 	
 	public String actionRegisterUser() {

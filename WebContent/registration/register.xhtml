@@ -13,11 +13,11 @@
 	<h:form id="frmRegistration">
 		<h1>My Briefcase Login</h1>
 		<p:growl globalOnly="true" showDetail="true"/>
-		<p:wizard widgetVar="wizRegister" backLabel="Previous" nextLabel="Continue" showStepStatus="false" showNavBar="false"
-			flowListener="#{registrationController.onFlowProcess}" style="margin:0px 37% 0px; width: 400px">
+		<p:wizard flowListener="#{registrationController.onFlowProcess}" style="margin:0px 37% 0px; width: 400px">
 			<p:tab id="tabUser" title="User">
-				<p:panel header="New User Data">
-					<p:panelGrid columns="2" id="panel-grid">
+				<p:panel header="Profile Information">
+					<p:messages />
+					<h:panelGrid columns="2">
 						<p:outputLabel value="User Id:" for="userId"/>
 						<p:inputText id="userId" required="true" requiredMessage="User Id must contain a value."
 							value="#{registrationForm.user.userId}" validatorMessage="Invalid email format."
@@ -34,13 +34,12 @@
 						<p:outputLabel value="Last Name:" for="lastName"/>
 						<p:inputText id="lastName" required="true" requiredMessage="Last Name must contain a value."
 							value="#{registrationForm.user.lastName}" maxlength="45" size="20"/>
-					</p:panelGrid>
-					<p:messages autoUpdate="true" closable="true"/>
+					</h:panelGrid>
 				</p:panel>
 			</p:tab>
 			<p:tab id="tabConfirm" title="Confirm">
 				<p:panel header="Confirmation Details">
-					<p:panelGrid columns="2">
+					<h:panelGrid columns="2">
 						<h:outputText value="User Id:"/>
 						<h:outputText value="#{registrationForm.user.userId}"/>
 						<h:outputText value="Password:"/>
@@ -49,25 +48,12 @@
 						<h:outputText value="#{registrationForm.user.firstName}"/>
 						<h:outputText value="Last Name:"/>
 						<h:outputText value="#{registrationForm.user.lastName}"/>
-					</p:panelGrid>
+					</h:panelGrid>
+					<br/>
+					<p:commandButton value="Submit" ajax="false" actionListener="#{registrationController.actionRegisterUser}" process="@this"/>
 				</p:panel>
 			</p:tab>
 		</p:wizard>
-		<p:toolbar id="toolBar" style="margin:0 37% 0; width:395px">
-			<p:toolbarGroup align="left">
-				<p:commandButton id="back" value="Back" onclick="wizRegister.back();" 
-					rendered="#{registrationForm.renderBackButton}" update="toolBar"/>
-			</p:toolbarGroup>
-			<p:toolbarGroup align="right">
-				<p:commandButton id="next" value="Next" onclick="wizRegister.next();" 
-					rendered="#{registrationForm.renderNextButton}" update="toolBar"/>
-			</p:toolbarGroup>
-			<p:toolbarGroup align="right">
-				<p:commandButton value="Submit" ajax="false" update="toolBar"
-					rendered="#{registrationForm.renderSubmitButton}" 
-					action="#{registrationController.actionRegisterUser}"/>
-			</p:toolbarGroup>
-		</p:toolbar>
 		<br/>
 		<div style="margin: 0 25% 0; width: 300px; overflow: hidden; float: right;">
 			<p:commandLink value="Click to cancel registration." 

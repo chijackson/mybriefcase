@@ -2,12 +2,11 @@ package org.filecab.controller;
 
 import java.io.IOException;
 
-import org.filecab.exception.SystemPersistenceException;
 import org.filecab.util.JSFUtils;
 
 public abstract class Controller {
 
-	protected void processError(SystemPersistenceException spe, boolean loggedIn) {
+	protected void processError(Exception spe, boolean loggedIn) {
 		System.out.println("ERROR: " + spe.getMessage());
 		try {
 			if (loggedIn) {
