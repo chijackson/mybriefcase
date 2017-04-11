@@ -11,9 +11,10 @@
 <h:body>
 	<h:outputStylesheet name="css/styles.css"/>
 	<h:form id="frmRegistration">
+		<h1>My Briefcase Login</h1>
 		<p:growl globalOnly="true" showDetail="true"/>
 		<p:wizard widgetVar="wizRegister" backLabel="Previous" nextLabel="Continue" showStepStatus="false" showNavBar="false"
-			flowListener="#{registrationController.onFlowProcess}" style="margin:80px 350px 0;width:400px">
+			flowListener="#{registrationController.onFlowProcess}" style="margin:0px 37% 0px; width: 400px">
 			<p:tab id="tabUser" title="User">
 				<p:panel header="New User Data">
 					<p:panelGrid columns="2" id="panel-grid">
@@ -52,7 +53,7 @@
 				</p:panel>
 			</p:tab>
 		</p:wizard>
-		<p:toolbar id="toolBar" style="margin:0 350px 0;width:395px">
+		<p:toolbar id="toolBar" style="margin:0 37% 0; width:395px">
 			<p:toolbarGroup align="left">
 				<p:commandButton id="back" value="Back" onclick="wizRegister.back();" 
 					rendered="#{registrationForm.renderBackButton}" update="toolBar"/>
@@ -68,7 +69,7 @@
 			</p:toolbarGroup>
 		</p:toolbar>
 		<br/>
-		<div style="margin:0 0 0 600px">
+		<div style="margin: 0 25% 0; width: 300px; overflow: hidden; float: right;">
 			<p:commandLink value="Click to cancel registration." 
 				immediate="true" ajax="false"
 				action="#{registrationController.actionNavLogin}"/>
