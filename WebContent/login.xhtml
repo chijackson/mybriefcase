@@ -11,32 +11,28 @@
 <h:body>
 	<h:outputStylesheet name="css/styles.css"/>
 	<h:form id="frmLogin">
-		<f:event type="preRenderView" listener="#{loginController.checkUserLoggedIn}"/>
 		<p:focus context="panel"/>
-		<div style="margin:0 40% 0; position:absolute;" align="center">
-			<h1 class="title">My Briefcase Login</h1>
-			<p:panel id="panel" header="Please Log In">
-				<p:panelGrid columns="2" id="panel-grid">
-			        <p:outputLabel value="User Id:"/>
-			        <p:inputText id="userId" value="#{login.user.userId}" size="20" required="true"
-			        	maxlength="50" requiredMessage="User Id must contain a value."/>
-			        <p:outputLabel for="password" value="Password:"/>
-					<p:password id="password" value="#{login.user.password}" size="20" required="true"
-						maxlength="20" requiredMessage="Password must contain a value."/>
-				</p:panelGrid>
-				<br/>
-				<h:panelGroup>
-					<p:commandButton id="btnSubmit" value="Login" icon="ui-icon-power"  
-	               		action="#{loginController.actionLogin}" ajax="false"/>
-				</h:panelGroup>
-			</p:panel>
-			<p:messages autoUpdate="true" closable="true"/>
-			<br/>
-			<div align="right">
-	    		<p:commandLink value="Register" immediate="true" 
-	    			action="#{loginController.actionNavRegistration}" ajax="false"/>
-	    	</div>
-	    </div>
+		<h1>My Briefcase Login</h1>
+		<p:panel id="panel" header="Please Log In" style="margin: 0px 40% 0px; width: 300px">
+			<h:panelGrid id="panel-grid" columns="3" cellpadding="5">
+		        <h:outputText value="User Id:"/>
+		        <p:inputText id="userId" value="#{login.user.userId}" size="20" required="true"	maxlength="50" 
+		        	requiredMessage="User Id must contain a value." autocomplete="true"/>
+		        <p:message for="userId" display="tooltip" />
+		        
+		        <h:outputText value="Password:"/>
+				<p:password id="password" value="#{login.user.password}" size="20" required="true" maxlength="20"
+					requiredMessage="Password must contain a value."/>
+				<p:message for="password" display="tooltip" />
+				
+				<p:commandButton id="btnSubmit" value="Login" icon="ui-icon-power" update="panel-grid"
+               		action="#{loginController.actionLogin}" ajax="false" style="overflow: hidden; float: left;"/>
+               	<p:commandLink value="Register" immediate="true" style="overflow: hidden; float: right;"
+    				action="#{loginController.actionNavRegistration}" ajax="false"/>
+			</h:panelGrid>
+		</p:panel>
 	</h:form>
+	<p:messages autoUpdate="true" globalOnly="true"/>
+	<p:tooltip />
 </h:body>
 </html>

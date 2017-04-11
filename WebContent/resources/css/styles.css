@@ -1,17 +1,18 @@
 body {
 	font-size:65%;
+	font-family: 'Comic Sans MS', cursive, sans-serif;
 	/*background-color:#d8e7f3;*/
 }
 
 h1,h2,h3 {
   text-align: center;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  
   color: black;
 }
 
 h3 {
   text-align: center;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  
   color: black;
   text-decoration:underline;
   font-style:italic;

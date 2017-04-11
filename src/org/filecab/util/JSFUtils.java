@@ -43,4 +43,8 @@ public final class JSFUtils {
 		context.redirect(context.getRequestContextPath() + redirectPath);
 	}
 	
+	public static void logout() {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+	}
+	
 }

@@ -50,7 +50,7 @@ public class RegistrationController extends Controller {
 			processError(spe, false);
 		}
 		
-		return "/pages/registration/confirmation";
+		return "/registration/confirmation";
 	}
 	
 	public String actionNavLogin() {

@@ -3,8 +3,6 @@
  */
 package org.filecab.controller;
 
-import java.io.IOException;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -56,30 +54,13 @@ public class LoginController extends Controller{
 	}
 	
 	public String actionLogout() {
-		JSFUtils.removeSessionBean("dvdProfile");
-		JSFUtils.removeSessionBean("login");
-		JSFUtils.removeSessionBean("userProfile");
-		JSFUtils.removeSessionBean("websiteProfile");
-		JSFUtils.removeSessionBean("wirelessProfile");
-		
+		JSFUtils.logout();
 		return "/login";
 	}
 
 	public String actionNavRegistration() {
 		JSFUtils.removeSessionBean("login");
-		return "/pages/registration/register";
+		return "/registration/register";
 	}
-	
-	public void checkUserLoggedIn() {
-		System.out.println("Inside check login");
-		Login loginBean = (Login) JSFUtils.getSessionBean("login");
-		if (null != loginBean && loginBean.isLoggedIn()) {
-			try {
-				JSFUtils.redirect("/pages/home.faces");
-			} catch (IOException e) {
-				System.out.println("Error occurred trying to redirect to the home page.");
-			}
-		}
-	}
-	
+
 }

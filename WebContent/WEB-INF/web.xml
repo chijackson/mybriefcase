@@ -19,7 +19,7 @@
   </servlet-mapping>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>home</param-value>
+    <param-value>smoothness</param-value>
   </context-param>
   <context-param>
     <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
@@ -37,6 +37,14 @@
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
   </listener>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>org.filecab.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
   
   <resource-ref>
   	<description>MySQL DB Connection</description>
